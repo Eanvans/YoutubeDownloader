@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Extensions.DependencyInjection;
 using YoutubeDownloader.Core.Downloading;
 using YoutubeDownloader.Core.Utils.Extensions;
+using YoutubeDownloader.Services;
 using YoutubeDownloader.ViewModels;
 using YoutubeDownloader.ViewModels.Components;
 using YoutubeDownloader.ViewModels.Dialogs;
@@ -69,13 +70,15 @@ public class ViewModelManager(IServiceProvider services)
 
     public DownloadSingleSetupViewModel CreateDownloadSingleSetupViewModel(
         IVideo video,
-        IReadOnlyList<VideoDownloadOption> availableDownloadOptions
+        IReadOnlyList<VideoDownloadOption> availableDownloadOptions,
+        List<VodCommentData> vodComments
     )
     {
         var viewModel = services.GetRequiredService<DownloadSingleSetupViewModel>();
 
         viewModel.Video = video;
         viewModel.AvailableDownloadOptions = availableDownloadOptions;
+        viewModel.VodComments = vodComments;
 
         return viewModel;
     }

@@ -11,7 +11,7 @@
     Width="500"
     x:DataType="dialogs:DownloadSingleSetupViewModel"
     Loaded="UserControl_OnLoaded">
-    <Grid RowDefinitions="Auto,*,Auto,Auto">
+    <Grid RowDefinitions="Auto,Auto,*,Auto,Auto">
         <!--  Info  -->
         <StackPanel
             Grid.Row="0"
@@ -61,9 +61,29 @@
             </StackPanel>
         </StackPanel>
 
-        <!--  Thumbnail  -->
-        <Border
+		<Border
             Grid.Row="1"
+            Margin="16,8,16,8"
+            BorderBrush="{DynamicResource MaterialDividerBrush}"
+            BorderThickness="0,1,0,1">
+			<ScrollViewer HorizontalScrollBarVisibility="Disabled">
+				<ItemsControl ItemsSource="{Binding VodComments}">
+					<ItemsControl.ItemTemplate>
+						<DataTemplate>
+							<StackPanel Margin="0,4" Orientation="Horizontal">
+								<TextBlock
+									Margin="8,0,0,0"
+									Text="{Binding OffsetInterval}" />
+							</StackPanel>
+						</DataTemplate>
+					</ItemsControl.ItemTemplate>
+				</ItemsControl>
+			</ScrollViewer>
+		</Border>
+
+		<!--  Thumbnail  -->
+        <Border
+            Grid.Row="2"
             BorderBrush="{DynamicResource MaterialDividerBrush}"
             BorderThickness="0,1">
             <Image asyncImageLoader:ImageLoader.Source="{Binding Video, Converter={x:Static converters:VideoToHighestQualityThumbnailUrlStringConverter.Instance}}" />
@@ -71,7 +91,7 @@
 
         <!--  Download options  -->
         <ComboBox
-            Grid.Row="2"
+            Grid.Row="3"
             Margin="16"
             materialAssists:ComboBoxAssist.Label="Format"
             DockPanel.Dock="Left"
@@ -106,7 +126,7 @@
 
         <!--  Buttons  -->
         <StackPanel
-            Grid.Row="3"
+            Grid.Row="4"
             Margin="16,8,16,16"
             HorizontalAlignment="Right"
             Orientation="Horizontal">

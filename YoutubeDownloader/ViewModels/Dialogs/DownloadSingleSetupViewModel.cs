@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Platform.Storage;
@@ -30,6 +31,9 @@ public partial class DownloadSingleSetupViewModel(
 
     [ObservableProperty]
     public partial VideoDownloadOption? SelectedDownloadOption { get; set; }
+
+    [ObservableProperty]
+    public partial List<VodCommentData>? VodComments { get; set; } = new();
 
     [RelayCommand]
     private void Initialize()
@@ -70,6 +74,11 @@ public partial class DownloadSingleSetupViewModel(
         // Download does not start immediately, so lock in the file path to avoid conflicts
         DirectoryEx.CreateDirectoryForFile(filePath);
         await File.WriteAllBytesAsync(filePath, []);
+
+        var commtsFilePaht = filePath.Substring(0, filePath.LastIndexOf('.')) + ".txt";
+        var options = new JsonSerializerOptions { WriteIndented = true }; // 美化格式
+        string json = JsonSerializer.Serialize(VodComments, options);
+        File.WriteAllText(commtsFilePaht, json);
 
         settingsService.LastContainer = container;
 
