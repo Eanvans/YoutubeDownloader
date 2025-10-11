@@ -73,10 +73,18 @@ namespace YoutubeDownloader.Services
             }
 
             // 第一步：计算窗口长度
-            // default time is 10min
-            var tWindowLength = (int)(10 * 60) / secondsDt;
+            // default time is 3min
+            var tWindowLength = (int)(3 * 60) / secondsDt;
             // 第二步：调用 MeanFilter（需要前面定义的函数）平滑窗口
-            double[] filteredCount = AlgoService.MeanFilter(commentCountByDt, tWindowLength + 1);
+            double[]? filteredCount = null;
+            try
+            {
+                filteredCount = AlgoService.MeanFilter(commentCountByDt, tWindowLength + 1);
+            }
+            catch (Exception)
+            {
+                return new();
+            }
             // 第三步：对结果进行缩放
             double scale = tWindowLength + 1;
             double[] scaledFilteredCount = new double[filteredCount.Length];

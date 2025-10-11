@@ -612,7 +612,7 @@ public partial class DashboardViewModel : ViewModelBase
     )> GetChatReplayFromContinuation(
         string videoId,
         string? continuation,
-        int pageCountLimit = 800,
+        int pageCountLimit = 9999,
         bool isLocallyRun = false
     )
     {
